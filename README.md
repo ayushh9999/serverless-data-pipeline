@@ -37,21 +37,20 @@ Current ETL behavior:
 
 Config placeholders are intentionally used in code for safe public sharing.
 
-## Real Execution Evidence 📊
+## ETL Workflow Visual 🔄
 
-From actual Glue runs:
-- **Success rate:** 3/3 runs succeeded
-- **Durations:** 1m 30s, 1m 32s, 1m 21s
-- **Retries:** 0
-- **Compute:** 10 DPUs, G.1X workers
-- **Glue version:** 5.0
+This Glue visual job shows the exact transformation path:
+1. **Source:** Amazon S3
+2. **Transform:** Drop Duplicates
+3. **Target:** Amazon S3
 
-From curated S3 output:
-- Output generated under **load/** prefix
-- 3 output files produced
-- Each file size is approximately **17.3 KB**
+![Glue ETL Visual Flow](screenshots/glue-etl-visual.png)
 
-## Proof Screenshots 🖼️
+Interview one-liner:
+
+Built a Glue ETL pipeline that reads CSV data from S3, removes duplicate records, and writes curated output back to S3 in an automated serverless flow.
+
+## Screenshots 🖼️
 
 Glue job run success:
 
@@ -75,6 +74,7 @@ S3 curated output:
 |   |-- input.csv
 |   |-- output_cleaned.csv
 |-- screenshots/
+|   |-- glue-etl-visual.png
 |   |-- glue-job.png
 |   |-- s3-load.png
 |-- .gitignore
