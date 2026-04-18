@@ -80,35 +80,3 @@ S3 curated output:
 |-- .gitignore
 |-- README.md
 ```
-
-## Quick Demo Steps 🎬
-
-1. Upload `sample-data/input.csv` to your raw S3 location.
-2. Verify Lambda is invoked and Glue job starts.
-3. Verify Glue run status is `Succeeded`.
-4. Validate output files in curated S3 `load/` path.
-5. Show screenshots in this README as proof of execution.
-
-## Interview Summary 🎯
-
-Built a serverless, event-driven AWS data pipeline where CSV files uploaded to S3 trigger Lambda, launch Glue ETL for deduplication, and produce curated output in S3 while maintaining observability through EventBridge, SNS, and CloudWatch.
-
-## Security Notes 🔒
-
-- No secrets or credentials are committed.
-- Public-safe placeholders are used for bucket and job configuration.
-- IAM least-privilege is recommended for production deployment.
-
-## Future Improvements 🌱
-
-- Add schema validation before ETL execution
-- Add DLQ and retry policy for stronger fault handling
-- Add Infrastructure as Code using Terraform or CloudFormation
-
-## Publish Commands 🚀
-
-```bash
-git add .
-git commit -m "Sync README with current project assets"
-git push -u origin main
-```
