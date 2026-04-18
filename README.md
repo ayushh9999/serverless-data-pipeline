@@ -1,50 +1,84 @@
-# AWS Serverless Data Pipeline (CSV ETL)
+# AWS Serverless Data Pipeline (CSV ETL) 🚀
 
-An event-driven AWS data pipeline that ingests CSV files from Amazon S3, triggers AWS Lambda, runs ETL with AWS Glue (including duplicate removal), and sends status notifications with Amazon SNS. Pipeline health and logs are monitored in Amazon CloudWatch.
+An event-driven AWS data pipeline that ingests CSV files from Amazon S3, triggers AWS Lambda, performs ETL in AWS Glue (including duplicate removal), and provides visibility through EventBridge, SNS, and CloudWatch.
 
-## Architecture
+## Why This Project Matters 💡
 
-Flow:
-1. S3 receives raw CSV file.
-2. Lambda is triggered by S3 object event.
-3. Lambda starts Glue ETL job.
-4. Glue transforms data and removes duplicates.
-5. Cleaned data is written to target storage.
-6. EventBridge tracks pipeline events.
-7. SNS sends success or failure email notifications.
-8. CloudWatch captures logs and metrics.
+Manual CSV processing is repetitive and error-prone. This project automates ingestion, transformation, deduplication, and output publishing in a scalable serverless workflow.
 
-Add your architecture image here:
-- `architecture/pipeline-architecture.png`
+## Architecture Overview 🧭
 
-## AWS Services Used
+Pipeline flow:
+1. **S3 (Data Source)** receives raw CSV files.
+2. **Lambda (Trigger)** starts the Glue job on new file upload.
+3. **Glue (ETL)** cleans data and removes duplicates.
+4. **EventBridge (Event Track)** captures pipeline events.
+5. **SNS (Email Notification)** sends status notifications.
+6. **CloudWatch (Monitoring)** tracks logs and operational health.
 
-- Amazon S3: Raw and curated data storage
-- AWS Lambda: Event trigger and orchestration
-- AWS Glue: ETL transformation and deduplication
-- Amazon EventBridge: Event tracking and routing
-- Amazon SNS: Email notifications
-- Amazon CloudWatch: Monitoring, logs, and metrics
+Architecture diagram:
 
-## Repository Structure
+![Pipeline Architecture](architecture/pipeline-architecture.png)
+
+## Tech Stack 🛠️
+
+- **Amazon S3** for raw and curated data storage
+- **AWS Lambda** for event-driven orchestration
+- **AWS Glue** for ETL and deduplication
+- **Amazon EventBridge** for event tracking
+- **Amazon SNS** for email notifications
+- **Amazon CloudWatch** for logs and monitoring
+
+## ETL Logic ✅
+
+Current ETL behavior:
+- Reads CSV files from raw S3 path
+- Removes duplicate records
+- Writes cleaned output to curated S3 path
+- Runs basic data quality checks in Glue
+
+Config placeholders are intentionally used in code for safe public sharing.
+
+## Real Execution Evidence 📊
+
+From actual Glue runs:
+- **Success rate:** 3/3 runs succeeded
+- **Durations:** 1m 30s, 1m 32s, 1m 21s
+- **Retries:** 0
+- **Compute:** 10 DPUs, G.1X workers
+- **Glue version:** 5.0
+
+From curated S3 output:
+- Output generated under **load/** prefix
+- 3 output files produced
+- Each file size is approximately **17.3 KB**
+
+## Proof Screenshots 🖼️
+
+Glue job run success:
+
+![Glue Job Runs](screenshots/glue-job.png)
+
+S3 curated output:
+
+![S3 Output Files](screenshots/s3-load.png)
+
+## Project Structure 📁
 
 ```text
 .
 |-- architecture/
-|   |-- pipeline-architecture.png   # Add your diagram image
+|   |-- pipeline-architecture.png
 |-- lambda/
-|   |-- lambda_handler.py           # Put your Lambda code here
+|   |-- lambda_handler.py
 |-- glue/
-|   |-- glue_etl_job.py             # Put your Glue ETL code here
+|   |-- glue_etl_job.py
 |-- sample-data/
 |   |-- input.csv
 |   |-- output_cleaned.csv
 |-- screenshots/
-|   |-- lambda-log.png
-|   |-- glue-job-success.png
-|   |-- s3-output.png
-|   |-- sns-alert-email.png
-|   |-- cloudwatch-metrics.png
+|   |-- glue-job.png
+|   |-- s3-load.png
 |-- docs/
 |   |-- runbook.md
 |   |-- interview-pitch.md
@@ -53,73 +87,48 @@ Add your architecture image here:
 |-- README.md
 ```
 
-## ETL Logic
+## 3-5 Minute Demo Flow 🎬
 
-Current ETL operations:
-- Read CSV from raw S3 location
-- Drop duplicate rows
-- Basic cleaning and formatting
-- Write curated output to target location
+1. Upload `sample-data/input.csv` to raw S3 path.
+2. Show Lambda invocation in CloudWatch logs.
+3. Show Glue run status as **Succeeded**.
+4. Show cleaned output in curated S3 location.
+5. Show alerting/monitoring visibility.
 
-Update this section with your exact logic if you also handle:
-- Null value cleanup
-- Type casting
-- Schema normalization
-- Column selection and renaming
+Detailed demo guide: `docs/runbook.md`
 
-## How to Demonstrate (3-5 minutes)
+## Interview Talking Points 🎯
 
-1. Upload `sample-data/input.csv` to S3 raw bucket.
-2. Show Lambda trigger in CloudWatch logs.
-3. Show Glue job run status as successful.
-4. Show deduplicated output file in target storage.
-5. Show SNS notification email.
-6. Show CloudWatch metrics/logs for observability.
+- Designed an **event-driven serverless pipeline** using AWS managed services.
+- Implemented **deduplication** and automated ETL with AWS Glue.
+- Added operational visibility using **CloudWatch + EventBridge + SNS**.
+- Achieved reliable execution with successful production-style runs.
 
-Detailed steps: see `docs/runbook.md`.
+Ready-to-use pitch: `docs/interview-pitch.md`
 
-## Interview Value
+## Security and Publishing Notes 🔒
 
-This project demonstrates:
-- Event-driven data pipeline design
-- Serverless orchestration on AWS
-- ETL and data quality handling (deduplication)
-- Monitoring and operational reliability
+- No secrets, credentials, keys, or personal tokens are committed.
+- Public-safe placeholders are used for bucket/job config values.
+- IAM least-privilege should be used in real deployment.
 
-Interview pitch: see `docs/interview-pitch.md`.
+## Scalability and Cost ⚙️
 
-## Security Notes
+- Fully serverless design, no server management.
+- Pay-per-use services reduce idle cost.
+- Scales with incoming CSV workload.
 
-- No secrets, keys, or credentials are committed to this repository.
-- Use IAM least-privilege roles for Lambda, Glue, and SNS.
-- Parameterize environment-specific values (bucket names, job names, topic ARNs).
+## Future Improvements 🌱
 
-## Scalability and Cost
+- Add schema validation before ETL start
+- Add dead-letter queue and retry policy
+- Add row-level data quality reporting
+- Add IaC using Terraform or CloudFormation
 
-- Serverless design minimizes operational overhead.
-- Pay-per-use model with Lambda/Glue/SNS.
-- Event-driven processing scales with incoming file volume.
-
-## Future Improvements
-
-- Add schema validation before ETL
-- Add dead-letter queue and retry strategy
-- Add data quality checks and row-level error reporting
-- Add IaC (Terraform or CloudFormation) for reproducible deployment
-
-## Quick Start for GitHub Upload
-
-1. Add your Lambda script to `lambda/lambda_handler.py`.
-2. Add your Glue script to `glue/glue_etl_job.py`.
-3. Add your architecture image to `architecture/pipeline-architecture.png`.
-4. Add screenshots to `screenshots/`.
-5. Commit and push:
+## Quick Publish to GitHub 🚀
 
 ```bash
-git init
 git add .
-git commit -m "Initial commit: AWS serverless CSV ETL pipeline"
-git branch -M main
-git remote add origin <your-repo-url>
+git commit -m "Finalize AWS serverless CSV ETL pipeline documentation and assets"
 git push -u origin main
 ```

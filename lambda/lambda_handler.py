@@ -1,32 +1,24 @@
-"""Lambda trigger script placeholder.
-
-Replace this file with your real Lambda code.
-"""
-
-import json
 import os
+
 import boto3
 
 
-glue = boto3.client("glue")
-GLUE_JOB_NAME = os.getenv("GLUE_JOB_NAME", "your-glue-job-name")
+# Enter your Glue job name in Lambda environment variables.
+GLUE_JOB_NAME = os.getenv("GLUE_JOB_NAME", "<enter-your-glue-job-name>")
 
 
 def lambda_handler(event, context):
+    glue = boto3.client("glue")
+
     try:
-        response = glue.start_job_run(JobName=GLUE_JOB_NAME)
+        glue.start_job_run(JobName=GLUE_JOB_NAME)
         return {
             "statusCode": 200,
-            "body": json.dumps(
-                {
-                    "message": "Glue job started",
-                    "jobName": GLUE_JOB_NAME,
-                    "jobRunId": response.get("JobRunId"),
-                }
-            ),
+            "body": f"Successfully started Glue job {GLUE_JOB_NAME}",
         }
     except Exception as exc:
         return {
             "statusCode": 500,
-            "body": json.dumps({"message": "Failed to start Glue job", "error": str(exc)}),
+            "body": f"Failed to start Glue job: {str(exc)}",
         }
+       
