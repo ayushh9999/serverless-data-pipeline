@@ -1,8 +1,6 @@
-# AWS Serverless Data Pipeline (CSV ETL) 🚀
+# AWS Serverless Data Pipeline (CSV ETL) 
 
 An event-driven AWS data pipeline that ingests CSV files from Amazon S3, triggers AWS Lambda, performs ETL in AWS Glue (including duplicate removal), and provides visibility through EventBridge, SNS, and CloudWatch.
-
-## Why This Project Matters 💡
 
 Manual CSV processing is repetitive and error-prone. This project automates ingestion, transformation, deduplication, and output publishing in a scalable serverless workflow.
 
@@ -79,56 +77,38 @@ S3 curated output:
 |-- screenshots/
 |   |-- glue-job.png
 |   |-- s3-load.png
-|-- docs/
-|   |-- runbook.md
-|   |-- interview-pitch.md
-|   |-- demo-checklist.md
 |-- .gitignore
 |-- README.md
 ```
 
-## 3-5 Minute Demo Flow 🎬
+## Quick Demo Steps 🎬
 
-1. Upload `sample-data/input.csv` to raw S3 path.
-2. Show Lambda invocation in CloudWatch logs.
-3. Show Glue run status as **Succeeded**.
-4. Show cleaned output in curated S3 location.
-5. Show alerting/monitoring visibility.
+1. Upload `sample-data/input.csv` to your raw S3 location.
+2. Verify Lambda is invoked and Glue job starts.
+3. Verify Glue run status is `Succeeded`.
+4. Validate output files in curated S3 `load/` path.
+5. Show screenshots in this README as proof of execution.
 
-Detailed demo guide: `docs/runbook.md`
+## Interview Summary 🎯
 
-## Interview Talking Points 🎯
+Built a serverless, event-driven AWS data pipeline where CSV files uploaded to S3 trigger Lambda, launch Glue ETL for deduplication, and produce curated output in S3 while maintaining observability through EventBridge, SNS, and CloudWatch.
 
-- Designed an **event-driven serverless pipeline** using AWS managed services.
-- Implemented **deduplication** and automated ETL with AWS Glue.
-- Added operational visibility using **CloudWatch + EventBridge + SNS**.
-- Achieved reliable execution with successful production-style runs.
+## Security Notes 🔒
 
-Ready-to-use pitch: `docs/interview-pitch.md`
-
-## Security and Publishing Notes 🔒
-
-- No secrets, credentials, keys, or personal tokens are committed.
-- Public-safe placeholders are used for bucket/job config values.
-- IAM least-privilege should be used in real deployment.
-
-## Scalability and Cost ⚙️
-
-- Fully serverless design, no server management.
-- Pay-per-use services reduce idle cost.
-- Scales with incoming CSV workload.
+- No secrets or credentials are committed.
+- Public-safe placeholders are used for bucket and job configuration.
+- IAM least-privilege is recommended for production deployment.
 
 ## Future Improvements 🌱
 
-- Add schema validation before ETL start
-- Add dead-letter queue and retry policy
-- Add row-level data quality reporting
-- Add IaC using Terraform or CloudFormation
+- Add schema validation before ETL execution
+- Add DLQ and retry policy for stronger fault handling
+- Add Infrastructure as Code using Terraform or CloudFormation
 
-## Quick Publish to GitHub 🚀
+## Publish Commands 🚀
 
 ```bash
 git add .
-git commit -m "Finalize AWS serverless CSV ETL pipeline documentation and assets"
+git commit -m "Sync README with current project assets"
 git push -u origin main
 ```
