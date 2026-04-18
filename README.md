@@ -46,10 +46,6 @@ This Glue visual job shows the exact transformation path:
 
 ![Glue ETL Visual Flow](screenshots/glue-etl-visual.png)
 
-Interview one-liner:
-
-Built a Glue ETL pipeline that reads CSV data from S3, removes duplicate records, and writes curated output back to S3 in an automated serverless flow.
-
 ## Screenshots 🖼️
 
 Glue job run success:
